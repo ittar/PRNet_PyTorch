@@ -30,7 +30,11 @@ class PRN:
 
         # 1) load model.
         self.pos_predictor = ResFCN256()
-        state = torch.load(model_dir)
+        if (torch.cuda.is_available()):
+            device = torch.device('cuda')
+        else :
+            device = torch.device('cpu')
+        state = torch.load(model_dir, map_location=device)
         self.pos_predictor.load_state_dict(state['prnet'])
         self.pos_predictor.eval()  # inference stage only.
         if torch.cuda.device_count() > 0:

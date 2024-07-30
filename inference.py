@@ -8,6 +8,8 @@ import scipy.io as sio
 import argparse
 import ast
 
+import torch
+
 from api import PRN
 from torchvision import transforms, utils, models
 
@@ -20,6 +22,10 @@ from utils.rotate_vertices import frontalize
 from config.config import FLAGS
 
 def main(args):
+    if (torch.cuda.is_available()):
+        device = torch.device('cuda')
+    else :
+        device = torch.device('cpu')
     if args.isShow or args.isTexture:
         import cv2
         from utils.cv_plot import plot_kpt, plot_vertices, plot_pose_box
@@ -59,7 +65,7 @@ def main(args):
         image = cv2.resize(image, (256, 256))
         image_t = transform_img(image)
         image_t = image_t.unsqueeze(0)
-        pos = prn.net_forward(image_t.cuda())  # input image has been cropped to 256x256
+        pos = prn.net_forward(image_t.to(device))  # input image has been cropped to 256x256
 
         out = pos.cpu().detach().numpy()
         pos = np.squeeze(out)

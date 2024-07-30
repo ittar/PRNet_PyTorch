@@ -1,0 +1,19 @@
+name: prnet
+channels:
+    - pytorch
+    - conda-forge
+    - defaults
+dependencies:
+    - python=3.10.13
+    - numpy
+    - tqdm
+    - future
+    - opencv
+    - scikit-image
+    - protobuf
+    - tensorboard
+    - pillow
+    - pytorch
+    - torchvision
+    - pyrender
+    - scipy
